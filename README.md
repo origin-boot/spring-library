@@ -11,8 +11,8 @@ They will not borrow books but fail to perform the borrowing registration operat
 
 Server:
 
-- Java
-- Spring Boot
+- Java: 17+ LTS
+- Spring Boot: 3.2.5
 - Domain Driven Design
 
 Client:
