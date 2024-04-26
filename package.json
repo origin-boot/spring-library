@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "husky": "^9.0.11"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "commitlint": "commitlint --config commitlint.config.js -e -V"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
