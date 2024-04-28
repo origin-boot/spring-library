@@ -1,6 +1,11 @@
 package com.origin.library.infrastructure.repository;
 
-// DO NOT implement this class with xxxImpl
-public class UserRepository {
-	
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.origin.library.domain.User;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+	Optional<User> findByUsername(String username);
 }

@@ -1,0 +1,50 @@
+### global variables
+
+# VS Code Plugin Install:
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+# VS Code Plugin Usage:
+# 1. Open a new file with the extension .http
+# 2. Write your request in the file
+# 3. Right-click in the file and select "Send Request"
+# 4. The response will be displayed in the lower part of the window
+
+@hostname = localhost
+@port = 8080
+@baseUrl = http://{{hostname}}:{{port}}
+@contentType = application/x-www-form-urlencoded
+
+### login
+
+POST {{baseUrl}}/api/login HTTP/1.1
+Content-Type: {{contentType}}
+
+username=user1&password=password1
+
+### logout
+
+POST {{baseUrl}}/api/logout HTTP/1.1
+Content-Type: {{contentType}}
+
+### search books
+
+@name = 
+@mine = false
+@pageNum = 1
+@pageSize = 5
+
+GET {{baseUrl}}/api/books?name={{name}}&mine={{mine}}&pageNum={{pageNum}}&pageSize={{pageSize}} HTTP/1.1
+Content-Type: {{contentType}}
+
+### borrow book
+
+@id = 1
+
+POST {{baseUrl}}/api/books/{{id}}/borrow HTTP/1.1
+Content-Type: {{contentType}}
+
+### return book
+
+@id = 1
+
+POST {{baseUrl}}/api/books/{{id}}/return HTTP/1.1
+Content-Type: {{contentType}}

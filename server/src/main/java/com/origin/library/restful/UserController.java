@@ -1,36 +1,43 @@
 package com.origin.library.restful;
 
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.origin.library.domain.User;
+import com.origin.library.domain.error.UserNotFoundError;
+import com.origin.library.domain.error.UsernameOrPasswordError;
+import com.origin.library.domain.success.Empty;
+import com.origin.library.domain.success.Ok;
+import com.origin.library.infrastructure.repository.UserRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
 
-	// FIXME: wrapper any exception to ResponseEntity with status code 4xx/5xx
-	// handle exception in global exception handler
-	// handle 404 not found
-	// handle 405 method not allowed
-	// handle other exception
+	@Autowired
+	UserRepository userRepository;
 
 	@PostMapping("/api/login")
-	public ResponseEntity<Void> login(
-			@RequestParam("username") final String username,
-			@RequestParam("password") final String password) {
+	public Ok<UserResource> login(
+			@Valid LoginCommand command) throws UserNotFoundError, UsernameOrPasswordError {
 
-		// FIXME: Implement login logic and save user session
-		// could be HttpSession or JWT token
+		User user = userRepository.findByUsername(command.getUsername())
+				.orElseThrow(() -> new UserNotFoundError().setDetails("username: " + command.getUsername()));
 
-		return ResponseEntity.ok().build();
+		if (!user.isMatchPassword(command.getPassword())) {
+			throw new UsernameOrPasswordError().setDetails("username: " + command.getUsername());
+		}
+
+		UserResource response = UserResource.of(user);
+
+		return Ok.of(response);
 	}
 
 	@PostMapping("/api/logout")
-	public ResponseEntity<Void> logout() {
+	public Ok<Empty> logout() {
 
-		// FIXME: Implement logout logic and clear user session
-		
-		return ResponseEntity.ok().build();
+		return Ok.empty();
 	}
 }
