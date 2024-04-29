@@ -3,7 +3,10 @@ package com.origin.library.infrastructure.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import com.origin.library.infrastructure.utils.RandomUtils;
@@ -68,6 +71,19 @@ public class JwtService {
                 .compact();
     }
 
+    public void injectToken(HttpHeaders headers, String token) {
+        headers.set("Authorization", "Bearer " + token);
+    }
+
+    public String extractToken(HttpServletRequest request) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+
+        return null;
+    }
+
     public String extractId(String token) throws Exception {
         String encryptedSubject = extractClaim(token, Claims::getSubject);
         return decryptedSubject(encryptedSubject);
@@ -82,11 +98,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(sign).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = extractExpirationDate(token);
         return expiration.before(new Date());
     }

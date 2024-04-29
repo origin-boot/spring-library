@@ -30,21 +30,22 @@ public class GlobalExceptionHandler {
 
 		if (ex instanceof Error) {
 			Error e = (Error) ex;
+			e.setDetails(e.getDetails() + " " + stackTrace);
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 
 		if (ex instanceof MethodArgumentNotValidException) {
-			Error e = new InvalidParameterError().setDetails(ex.getMessage());
+			Error e = new InvalidParameterError().setDetails(stackTrace);
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 
 		if (ex instanceof NoResourceFoundException) {
-			Error e = new RequestPathError().setDetails(ex.getMessage());
+			Error e = new RequestPathError().setDetails(stackTrace);
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 
 		if (ex instanceof HttpRequestMethodNotSupportedException) {
-			Error e = new RequestMethodError().setDetails(ex.getMessage());
+			Error e = new RequestMethodError().setDetails(stackTrace);
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 

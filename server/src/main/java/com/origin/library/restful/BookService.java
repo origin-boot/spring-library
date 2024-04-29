@@ -1,7 +1,5 @@
 package com.origin.library.restful;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.origin.library.domain.Book;
@@ -13,8 +11,6 @@ import com.origin.library.domain.error.RequestForbiddenError;
 import com.origin.library.infrastructure.repository.BookRepository;
 import com.origin.library.infrastructure.repository.BorrowRepository;
 import com.origin.library.infrastructure.utils.TimeUtils;
-
-import java.util.List;
 
 @Service
 public class BookService {

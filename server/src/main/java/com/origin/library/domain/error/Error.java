@@ -42,6 +42,10 @@ public class Error extends Exception {
 		return this;
 	}
 
+	public String getDetails() {
+		return details;
+	}
+
 	public Error setDetails(String details) {
 		this.details = details;
 		return this;

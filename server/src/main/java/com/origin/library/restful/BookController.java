@@ -9,24 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.origin.library.domain.User;
 import com.origin.library.domain.error.BookNotFoundError;
 import com.origin.library.domain.error.RequestForbiddenError;
+import com.origin.library.domain.error.UserNotFoundError;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
+import com.origin.library.infrastructure.controller.BaseController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
-public class BookController {
+public class BookController extends BaseController {
 
 	@Autowired
 	BookService bookService;
 
 	@GetMapping("/api/books")
-	public Ok<SearchBooksResponse> searchBooks(
-			@Valid SearchBooksQuery query) {
+	public Ok<SearchBooksResponse> searchBooks(HttpServletRequest request, @Valid SearchBooksQuery query)
+			throws UserNotFoundError {
 
-		User user = new User();
-		user.setId(1);
-		user.setUsername("user1");
+		User user = getLoginUser(request);
 
 		if (query.getMine()) {
 			SearchBooksResponse response = bookService.searchMyBooks(user, query);
@@ -38,11 +39,12 @@ public class BookController {
 	}
 
 	@PostMapping("/api/books/{id}/borrow")
-	public Ok<Empty> borrowBook(@PathVariable("id") final long id) throws BookNotFoundError, RequestForbiddenError {
+	public Ok<Empty> borrowBook(HttpServletRequest request, @PathVariable("id") final long id)
+			throws BookNotFoundError,
+			RequestForbiddenError,
+			UserNotFoundError {
 
-		User user = new User();
-		user.setId(1);
-		user.setUsername("user1");
+		User user = getLoginUser(request);
 
 		bookService.borrowBook(user, id);
 
@@ -50,11 +52,12 @@ public class BookController {
 	}
 
 	@PostMapping("/api/books/{id}/return")
-	public Ok<Empty> returnBook(@PathVariable("id") final long id) throws BookNotFoundError, RequestForbiddenError {
+	public Ok<Empty> returnBook(HttpServletRequest request, @PathVariable("id") final long id)
+			throws BookNotFoundError,
+			RequestForbiddenError,
+			UserNotFoundError {
 
-		User user = new User();
-		user.setId(1);
-		user.setUsername("user1");
+		User user = getLoginUser(request);
 
 		bookService.returnBook(user, id);
 
