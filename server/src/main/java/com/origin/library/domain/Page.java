@@ -2,11 +2,14 @@ package com.origin.library.domain;
 
 import java.util.List;
 
-public class Page<T> {
-	public int total;
-	public List<T> records;
+import lombok.Data;
 
-	public Page(List<T> records, int total) {
+@Data
+public class Page<T> {
+	protected long total;
+	protected List<T> records;
+
+	public Page(List<T> records, long total) {
 		this.total = total;
 		this.records = records;
 	}

@@ -26,8 +26,9 @@ public class BookController {
 
 		User user = new User();
 		user.setId(1);
+		user.setUsername("user1");
 
-		if(query.getMine()) {
+		if (query.getMine()) {
 			SearchBooksResponse response = bookService.searchMyBooks(user, query);
 			return Ok.of(response);
 		}
@@ -41,6 +42,8 @@ public class BookController {
 
 		User user = new User();
 		user.setId(1);
+		user.setUsername("user1");
+
 		bookService.borrowBook(user, id);
 
 		return Ok.empty();
@@ -51,6 +54,8 @@ public class BookController {
 
 		User user = new User();
 		user.setId(1);
+		user.setUsername("user1");
+
 		bookService.returnBook(user, id);
 
 		return Ok.empty();

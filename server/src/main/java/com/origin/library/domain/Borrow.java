@@ -30,4 +30,9 @@ public class Borrow {
 
 	@Column(name = "create_time")
 	private long createTime;
+
+	// FIXME: replace with lazy loading
+	@OneToOne
+	@JoinColumn(name = "book_id", insertable = false, updatable = false)
+	private Book book;
 }

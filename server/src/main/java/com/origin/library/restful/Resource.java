@@ -2,6 +2,7 @@ package com.origin.library.restful;
 
 import com.origin.library.domain.User;
 import com.origin.library.domain.Book;
+import com.origin.library.domain.Borrow;
 
 import lombok.Data;
 
@@ -33,19 +34,29 @@ class BookResource {
 	private long returnTime;
 	private long userId;
 	private String username;
-		
+
 	public BookResource() {
 		this.name = "";
 		this.username = "";
 	}
 
-	public static BookResource of(Book book) {
+	static BookResource of(Book book) {
 		BookResource resource = new BookResource();
 		resource.setId(book.getId());
 		resource.setName(book.getName());
 		resource.setBorrowTime(book.getBorrowTime());
 		resource.setReturnTime(book.getReturnTime());
 		resource.setUserId(book.getUserId());
+		return resource;
+	}
+
+	static BookResource of(Borrow borrow) {
+		BookResource resource = new BookResource();
+		resource.setId(borrow.getBook().getId());
+		resource.setName(borrow.getBook().getName());
+		resource.setBorrowTime(borrow.getBorrowTime());
+		resource.setReturnTime(borrow.getReturnTime());
+		resource.setUserId(borrow.getUserId());
 		return resource;
 	}
 }

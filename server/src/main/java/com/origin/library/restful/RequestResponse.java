@@ -2,7 +2,10 @@ package com.origin.library.restful;
 
 import java.util.List;
 
+import com.origin.library.domain.Book;
+import com.origin.library.domain.Borrow;
 import com.origin.library.domain.Page;
+import com.origin.library.domain.User;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
@@ -23,7 +26,7 @@ class LoginCommand {
 
 @Data
 class SearchBooksQuery {
-	@Length(max = 30, message = "name length must be less than 30")
+    @Length(max = 30, message = "name length must be less than 30")
     private String name;
 
     @NotNull(message = "is whether to filter books that I have borrowed or returned")
@@ -37,7 +40,36 @@ class SearchBooksQuery {
 }
 
 class SearchBooksResponse extends Page<BookResource> {
-	SearchBooksResponse(List<BookResource> records, int total) {
-		super(records, total);
-	}
+    SearchBooksResponse(List<BookResource> records, long total) {
+        super(records, total);
+    }
+
+    static SearchBooksResponse of(Page<Book> pagedBooks) {
+        List<BookResource> records = pagedBooks.getRecords().stream()
+                .map(BookResource::of)
+                .toList();
+        return new SearchBooksResponse(records, pagedBooks.getTotal());
+    }
+
+    SearchBooksResponse getUserView(User currentUser) {
+        long currentUserId = currentUser.getId();
+        records.forEach(r -> {
+            if (r.getUserId() != currentUserId) {
+                // hide sensitive info of other users
+                r.setUserId(0);
+                r.setUsername("");
+            } else {
+                // fill the username of the current user
+                r.setUsername(currentUser.getUsername());
+            }
+        });
+        return this;
+    }
+
+    static SearchBooksResponse ofPagedBorrows(Page<Borrow> pagedBorrows) {
+        List<BookResource> records = pagedBorrows.getRecords().stream()
+                .map(BookResource::of)
+                .toList();
+        return new SearchBooksResponse(records, pagedBorrows.getTotal());
+    }
 }

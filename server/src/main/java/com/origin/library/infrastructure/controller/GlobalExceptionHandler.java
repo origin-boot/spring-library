@@ -25,7 +25,8 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Error> handleException(Exception ex) {
 
-		logger.warning(ExceptionUtils.getStackTrace(ex, true, 1000));
+		String stackTrace = ExceptionUtils.getStackTrace(ex, true, 1000);
+		logger.warning(stackTrace);
 
 		if (ex instanceof Error) {
 			Error e = (Error) ex;
@@ -47,7 +48,7 @@ public class GlobalExceptionHandler {
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 
-		Error e = new InternalServerError();
+		Error e = new InternalServerError().setDetails(stackTrace);
 		return ResponseEntity.status(e.getStatus()).body(e);
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.origin.library.domain.Book;
 import com.origin.library.domain.Borrow;
+import com.origin.library.domain.Page;
 import com.origin.library.domain.User;
 import com.origin.library.domain.error.BookNotFoundError;
 import com.origin.library.domain.error.RequestForbiddenError;
@@ -33,52 +34,31 @@ public class BookService {
 
 	public SearchBooksResponse searchBooks(User user, SearchBooksQuery query) {
 
-		List<BookResource> totalRecords = List.of(
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource());
+		int offset = (query.getPageNum() - 1) * query.getPageSize();
+		int limit = query.getPageSize();
 
-		Pageable pageable = PageRequest.of(query.getPageNum() - 1, query.getPageSize());
-
-		List<BookResource> pageRecords = totalRecords.subList(
-				(int) pageable.getOffset(),
-				(int) Math.min(pageable.getOffset() + pageable.getPageSize(), totalRecords.size()));
-
-		SearchBooksResponse response = new SearchBooksResponse(pageRecords, totalRecords.size());
+		Page<Book> pagedBooks = bookRepository.searchBooks(query.getName(), offset, limit);
+		SearchBooksResponse response = SearchBooksResponse.of(pagedBooks)
+				.getUserView(user);
 
 		return response;
 	}
 
 	public SearchBooksResponse searchMyBooks(User user, SearchBooksQuery query) {
 
-		List<BookResource> totalRecords = List.of(
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource(),
-				new BookResource());
+		int offset = (query.getPageNum() - 1) * query.getPageSize();
+		int limit = query.getPageSize();
 
-		Pageable pageable = PageRequest.of(query.getPageNum() - 1, query.getPageSize());
-
-		List<BookResource> pageRecords = totalRecords.subList(
-				(int) pageable.getOffset(),
-				(int) Math.min(pageable.getOffset() + pageable.getPageSize(), totalRecords.size()));
-
-		SearchBooksResponse response = new SearchBooksResponse(pageRecords, totalRecords.size());
+		Page<Borrow> pagedBorrows = borrowRepository.searchMyBorrows(user.getId(), query.getName(), offset, limit);
+		SearchBooksResponse response = SearchBooksResponse.ofPagedBorrows(pagedBorrows)
+				.getUserView(user);
 
 		return response;
 	}
 
 	public void borrowBook(User user, Long bookId) throws BookNotFoundError, RequestForbiddenError {
 		Book book = getBookById(bookId);
+
 		if (!book.couldBeBorrowed()) {
 			throw new RequestForbiddenError().setDetails("Book is not available for borrowing");
 		}
