@@ -13,8 +13,8 @@ import com.origin.library.domain.error.UserNotFoundError;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
 import com.origin.library.infrastructure.controller.BaseController;
+import com.origin.library.infrastructure.controller.RequestUser;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,10 +24,8 @@ public class BookController extends BaseController {
 	BookService bookService;
 
 	@GetMapping("/api/books")
-	public Ok<SearchBooksResponse> searchBooks(HttpServletRequest request, @Valid SearchBooksQuery query)
+	public Ok<SearchBooksResponse> searchBooks(@RequestUser User user, @Valid SearchBooksQuery query)
 			throws UserNotFoundError {
-
-		User user = getLoginUser(request);
 
 		if (query.getMine()) {
 			SearchBooksResponse response = bookService.searchMyBooks(user, query);
@@ -39,12 +37,10 @@ public class BookController extends BaseController {
 	}
 
 	@PostMapping("/api/books/{id}/borrow")
-	public Ok<Empty> borrowBook(HttpServletRequest request, @PathVariable("id") final long id)
+	public Ok<Empty> borrowBook(@RequestUser User user, @PathVariable("id") final long id)
 			throws BookNotFoundError,
 			RequestForbiddenError,
 			UserNotFoundError {
-
-		User user = getLoginUser(request);
 
 		bookService.borrowBook(user, id);
 
@@ -52,12 +48,10 @@ public class BookController extends BaseController {
 	}
 
 	@PostMapping("/api/books/{id}/return")
-	public Ok<Empty> returnBook(HttpServletRequest request, @PathVariable("id") final long id)
+	public Ok<Empty> returnBook(@RequestUser User user, @PathVariable("id") final long id)
 			throws BookNotFoundError,
 			RequestForbiddenError,
 			UserNotFoundError {
-
-		User user = getLoginUser(request);
 
 		bookService.returnBook(user, id);
 

@@ -28,7 +28,8 @@ public class UserController extends BaseController {
 
 	@PostMapping("/api/login")
 	public Ok<UserResource> login(
-			@Valid LoginCommand command) throws UserNotFoundError, UsernameOrPasswordError, Exception {
+			@Valid LoginCommand command)
+			throws UserNotFoundError, UsernameOrPasswordError, Exception {
 
 		User user = userRepository.findByUsername(command.getUsername())
 				.orElseThrow(() -> new UserNotFoundError().setDetails("username: " + command.getUsername()));

@@ -27,6 +27,5 @@ public class User {
 
 	public boolean isMatchPassword(String inputPassword) {
 		return this.password != null && this.password.equals(inputPassword);
-
 	}
 }
