@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
+// FIXME: Use fastjson2 instead of this implementation
 public class ErrorSerializer extends StdSerializer<Error> {
 
 	public ErrorSerializer() {

@@ -30,6 +30,8 @@ public class BookService {
 
 	public SearchBooksResponse searchBooks(User user, SearchBooksQuery query) {
 
+		// FIXME: The code for calculating offset should be encapsulated
+		// as a method of SearchBooksQuery
 		int offset = (query.getPageNum() - 1) * query.getPageSize();
 		int limit = query.getPageSize();
 

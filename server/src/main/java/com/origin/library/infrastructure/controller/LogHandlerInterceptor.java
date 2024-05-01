@@ -37,6 +37,8 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
 		long executeTime = endTime - startTime;
 
 		LogEntry logEntry = new LogEntry(request, response, executeTime);
+		// FIXME: Use the more general Formatter class to replace the toJSONString
+		// method
 		logger.info(logEntry.toJSONString());
 	}
 

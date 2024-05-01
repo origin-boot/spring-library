@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
 			return ResponseEntity.status(e.getStatus()).body(e);
 		}
 
+		// FIXME: Use switch or cache to optimize the processing of multiple ifs
 		if (ex instanceof MethodArgumentNotValidException) {
 			Error e = new InvalidParameterError().setDetails(stackTrace);
 			return ResponseEntity.status(e.getStatus()).body(e);

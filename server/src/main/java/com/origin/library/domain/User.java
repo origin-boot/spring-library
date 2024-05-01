@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// FIXME: Use the generic User<T> to be compatible with users whose id is String
+// And the basic User implementation should be an abstract class
 @Entity
 @Table(name = "users")
 @Data

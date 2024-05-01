@@ -22,6 +22,8 @@ public class RequestUserHandlerMethodArgumentResolver implements HandlerMethodAr
             NativeWebRequest request, WebDataBinderFactory factory) throws Exception {
 
         Object value = request.getAttribute(UserHandlerInterceptor.ATTRIBUTE, NativeWebRequest.SCOPE_REQUEST);
+        // FIXME: If the required flag is false and the user does not exist,
+        // return null instead of throwing an exception.
         if (value == null) {
             throw new UserNotFoundError().setDetails("find user from http request by @RequestUser");
         }

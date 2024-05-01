@@ -60,6 +60,9 @@ public class JwtService {
         return parts[0];
     }
 
+    // FIXME: Implement the generic T id.
+    // The generic T needs to implement the serialization and deserialization
+    // interfaces.
     public String generateToken(String id) throws Exception {
         Map<String, Object> claims = new HashMap<>();
         String subject = encryptedSubject(id);

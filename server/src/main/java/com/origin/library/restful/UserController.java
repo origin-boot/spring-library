@@ -48,6 +48,11 @@ public class UserController extends BaseController {
 		jwtService.injectToken(responseHeaders, token);
 		responseHeaders.set(IdentityHandlerInterceptor.ATTRIBUTE, id);
 
+		// FIXME: The renewal implementation of jwt token can be placed in the
+		// interceptor,
+		// or a separate renewal interface can be implemented,
+		// or it can be implemented in a common API
+
 		return Ok.of(response, responseHeaders);
 	}
 

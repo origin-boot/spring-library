@@ -31,6 +31,9 @@ class AdvancedBookRepositoryImpl implements AdvancedBookRepository {
 
 	@Override
 	public Page<Book> searchBooks(String keyword, int offset, int limit) {
+		// FIXME: Use simpler and more convenient Query Builder to replace Criteria
+		// Builder
+
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Book> q = cb.createQuery(Book.class);
 		Root<Book> a = q.from(Book.class);

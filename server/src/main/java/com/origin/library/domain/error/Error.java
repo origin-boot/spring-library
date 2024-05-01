@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = ErrorSerializer.class)
 public class Error extends Exception {
+	// FIXME: Change these properties to protected
 	public int code;
 	public String message;
 	public String details;

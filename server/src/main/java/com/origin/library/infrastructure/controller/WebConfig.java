@@ -33,6 +33,13 @@ public class WebConfig implements WebMvcConfigurer {
 
 		identityHandlerInterceptor.addInterceptors(registry);
 		userHandlerInterceptor.addInterceptors(registry);
+
+		// FIXME: Interceptor to implement permission verification
+		// FIXME: The data returned to the user from the production environment needs to
+		// be removed,
+		// but Error.details should be retained in the log.
+
+		// FIXME: Add more interceptors to increase security and robustness
 	}
 
 	@Override
