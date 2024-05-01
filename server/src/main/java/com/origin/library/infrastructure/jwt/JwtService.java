@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import com.origin.library.infrastructure.utils.RandomUtils;
+import com.origin.library.infrastructure.util.RandomUtil;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,10 +30,11 @@ public class JwtService {
 
     private String salt;
 
-    private static final String separator = "\n";
+    private String separator;
 
     JwtService() {
-        this.salt = RandomUtils.generateRandomString(256);
+        this.salt = RandomUtil.generateRandomString(256);
+        this.separator = "\n";
     }
 
     private String encryptedSubject(String id) throws Exception {

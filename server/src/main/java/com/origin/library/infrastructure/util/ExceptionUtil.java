@@ -1,9 +1,9 @@
-package com.origin.library.infrastructure.utils;
+package com.origin.library.infrastructure.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ExceptionUtils {
+public class ExceptionUtil {
 	public static String getStackTrace(Exception e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -17,7 +17,7 @@ public class ExceptionUtils {
 	}
 
 	public static String getStackTrace(Exception e, boolean removeNewLine, int length) {
-		String stackTrace = ExceptionUtils.getStackTrace(e);
+		String stackTrace = ExceptionUtil.getStackTrace(e);
 		if (removeNewLine) {
 			stackTrace = stackTrace.replaceAll(System.lineSeparator(), " \\\\n ");
 		}

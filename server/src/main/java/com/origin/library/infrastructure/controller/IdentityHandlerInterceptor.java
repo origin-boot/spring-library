@@ -17,8 +17,8 @@ import java.util.List;
 @Component
 public class IdentityHandlerInterceptor implements HandlerInterceptor {
 
-	final Logger logger = Logger.getLogger(IdentityHandlerInterceptor.class.getName());
-	public static final String identityAttr = "Identity";
+	private final Logger logger = Logger.getLogger(IdentityHandlerInterceptor.class.getName());
+	public static final String ATTRIBUTE = "Identity";
 
 	@Autowired
 	private JwtService jwtService;
@@ -28,14 +28,14 @@ public class IdentityHandlerInterceptor implements HandlerInterceptor {
 			throws Exception {
 
 		try {
-			request.removeAttribute(identityAttr);
+			request.removeAttribute(ATTRIBUTE);
 			String token = jwtService.extractToken(request);
 			if (token == null || jwtService.isTokenExpired(token)) {
 				return true;
 			}
 
 			String id = jwtService.extractId(token);
-			request.setAttribute(identityAttr, id);
+			request.setAttribute(ATTRIBUTE, id);
 		} catch (Exception e) {
 			logger.warning(e.getMessage());
 			return true;

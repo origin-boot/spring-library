@@ -1,8 +1,8 @@
-package com.origin.library.infrastructure.utils;
+package com.origin.library.infrastructure.util;
 
 import java.util.Random;
 
-public class RandomUtils {
+public class RandomUtil {
 
     public static String generateRandomString(int length) {
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

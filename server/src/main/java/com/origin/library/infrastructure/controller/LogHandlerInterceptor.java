@@ -16,8 +16,8 @@ import java.util.Enumeration;
 @Component
 public class LogHandlerInterceptor implements HandlerInterceptor {
 
-	final Logger logger = Logger.getLogger(LogHandlerInterceptor.class.getName());
-	final String createTimeAttr = "createTime";
+	private final Logger logger = Logger.getLogger(LogHandlerInterceptor.class.getName());
+	private String createTimeAttr = "createTime";
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -115,11 +115,11 @@ class LogEntry {
 	}
 
 	String getUser(HttpServletRequest request, HttpServletResponse response) {
-		Object value = request.getAttribute(IdentityHandlerInterceptor.identityAttr);
-		if(value != null) {
+		Object value = request.getAttribute(IdentityHandlerInterceptor.ATTRIBUTE);
+		if (value != null) {
 			return value.toString();
 		}
-		value = response.getHeader(IdentityHandlerInterceptor.identityAttr);
+		value = response.getHeader(IdentityHandlerInterceptor.ATTRIBUTE);
 		return value == null ? "" : value.toString();
 	}
 }

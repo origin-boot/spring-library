@@ -12,7 +12,7 @@ import com.origin.library.domain.User;
 import com.origin.library.domain.error.Error;
 import com.origin.library.domain.error.UnauthorizedError;
 import com.origin.library.infrastructure.repository.UserRepository;
-import com.origin.library.infrastructure.utils.ExceptionUtils;
+import com.origin.library.infrastructure.util.ExceptionUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,11 +22,11 @@ import java.util.List;
 @Component
 public class UserHandlerInterceptor implements HandlerInterceptor {
 
-	final Logger logger = Logger.getLogger(UserHandlerInterceptor.class.getName());
-	public static final String userAttr = "User";
+	private final Logger logger = Logger.getLogger(UserHandlerInterceptor.class.getName());
+	public static final String ATTRIBUTE = "User";
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -34,10 +34,10 @@ public class UserHandlerInterceptor implements HandlerInterceptor {
 
 		try {
 			User user = getUser(request);
-			request.setAttribute(userAttr, user);
+			request.setAttribute(ATTRIBUTE, user);
 			return true;
 		} catch (Exception ex) {
-			String stackTrace = ExceptionUtils.getStackTrace(ex, true, 1000);
+			String stackTrace = ExceptionUtil.getStackTrace(ex, true, 1000);
 			logger.warning(stackTrace);
 
 			// Return 401 Unauthorized to client with error message in JSON format
@@ -54,7 +54,7 @@ public class UserHandlerInterceptor implements HandlerInterceptor {
 	}
 
 	private User getUser(HttpServletRequest request) throws Exception {
-		Object id = request.getAttribute(IdentityHandlerInterceptor.identityAttr);
+		Object id = request.getAttribute(IdentityHandlerInterceptor.ATTRIBUTE);
 		if (id == null) {
 			throw new Exception("Identity not found");
 		}

@@ -3,7 +3,7 @@ package com.origin.library.infrastructure.jwt;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.origin.library.infrastructure.utils.ExceptionUtils;
+import com.origin.library.infrastructure.util.ExceptionUtil;
 
 import java.util.Base64;
 import java.util.logging.Logger;
@@ -27,7 +27,7 @@ public class AESEncryptionService {
             byte[] encryptedBytes = cipher.doFinal(input.getBytes());
             return Base64.getEncoder().encodeToString(encryptedBytes);
         } catch (Exception e) {
-            logger.warning(ExceptionUtils.getStackTrace(e, true));
+            logger.warning(ExceptionUtil.getStackTrace(e, true));
             return null;
         }
     }
@@ -41,7 +41,7 @@ public class AESEncryptionService {
             byte[] decryptedBytes = cipher.doFinal(decodedBytes);
             return new String(decryptedBytes);
         } catch (Exception e) {
-            logger.warning(ExceptionUtils.getStackTrace(e, true));
+            logger.warning(ExceptionUtil.getStackTrace(e, true));
             return null;
         }
     }

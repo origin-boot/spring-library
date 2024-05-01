@@ -21,10 +21,10 @@ import jakarta.validation.Valid;
 public class UserController extends BaseController {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
-	JwtService jwtService;
+	private JwtService jwtService;
 
 	@PostMapping("/api/login")
 	public Ok<UserResource> login(
@@ -46,7 +46,7 @@ public class UserController extends BaseController {
 
 		HttpHeaders responseHeaders = new HttpHeaders();
 		jwtService.injectToken(responseHeaders, token);
-		responseHeaders.set(IdentityHandlerInterceptor.identityAttr, id);
+		responseHeaders.set(IdentityHandlerInterceptor.ATTRIBUTE, id);
 
 		return Ok.of(response, responseHeaders);
 	}

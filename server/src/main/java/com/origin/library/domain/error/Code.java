@@ -12,7 +12,7 @@ enum Code {
     USER_NOT_FOUND(1001),
     BOOK_NOT_FOUND(1002);
 
-    final int value;
+    private final int value;
 
     private Code(int value) {
         this.value = value;

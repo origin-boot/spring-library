@@ -21,7 +21,7 @@ public class RequestUserHandlerMethodArgumentResolver implements HandlerMethodAr
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer container,
             NativeWebRequest request, WebDataBinderFactory factory) throws Exception {
 
-        Object value = request.getAttribute(UserHandlerInterceptor.userAttr, NativeWebRequest.SCOPE_REQUEST);
+        Object value = request.getAttribute(UserHandlerInterceptor.ATTRIBUTE, NativeWebRequest.SCOPE_REQUEST);
         if (value == null) {
             throw new UserNotFoundError().setDetails("find user from http request by @RequestUser");
         }

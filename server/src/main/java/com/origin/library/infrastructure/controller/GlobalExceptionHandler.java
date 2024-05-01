@@ -15,17 +15,17 @@ import com.origin.library.domain.error.InternalServerError;
 import com.origin.library.domain.error.InvalidParameterError;
 import com.origin.library.domain.error.RequestMethodError;
 import com.origin.library.domain.error.RequestPathError;
-import com.origin.library.infrastructure.utils.ExceptionUtils;
+import com.origin.library.infrastructure.util.ExceptionUtil;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	final Logger logger = Logger.getLogger(GlobalExceptionHandler.class.getName());
+	private final Logger logger = Logger.getLogger(GlobalExceptionHandler.class.getName());
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Error> handleException(Exception ex) {
 
-		String stackTrace = ExceptionUtils.getStackTrace(ex, true, 1000);
+		String stackTrace = ExceptionUtil.getStackTrace(ex, true, 1000);
 		logger.warning(stackTrace);
 
 		if (ex instanceof Error) {

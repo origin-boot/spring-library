@@ -10,13 +10,13 @@ import com.origin.library.domain.error.BookNotFoundError;
 import com.origin.library.domain.error.RequestForbiddenError;
 import com.origin.library.infrastructure.repository.BookRepository;
 import com.origin.library.infrastructure.repository.BorrowRepository;
-import com.origin.library.infrastructure.utils.TimeUtils;
+import com.origin.library.infrastructure.util.TimeUtil;
 
 @Service
 public class BookService {
 
-	BookRepository bookRepository;
-	BorrowRepository borrowRepository;
+	private BookRepository bookRepository;
+	private BorrowRepository borrowRepository;
 
 	public BookService(final BookRepository bookRepository, final BorrowRepository borrowRepository) {
 		this.bookRepository = bookRepository;
@@ -61,7 +61,7 @@ public class BookService {
 
 		book.setUserId(user.getId());
 		book.setReturnTime(0);
-		book.setBorrowTime(TimeUtils.getUnixTimestamp());
+		book.setBorrowTime(TimeUtil.getUnixTimestamp());
 		book = bookRepository.save(book);
 
 		Borrow borrow = new Borrow();
@@ -69,7 +69,7 @@ public class BookService {
 		borrow.setBookId(book.getId());
 		borrow.setBorrowTime(book.getBorrowTime());
 		borrow.setReturnTime(book.getReturnTime());
-		borrow.setCreateTime(TimeUtils.getUnixTimestamp());
+		borrow.setCreateTime(TimeUtil.getUnixTimestamp());
 		borrow = borrowRepository.save(borrow);
 
 		return;
@@ -86,7 +86,7 @@ public class BookService {
 			throw new RequestForbiddenError().setDetails("Book is not borrowed by the user");
 		}
 
-		book.setReturnTime(TimeUtils.getUnixTimestamp());
+		book.setReturnTime(TimeUtil.getUnixTimestamp());
 		book = bookRepository.save(book);
 
 		Borrow borrow = new Borrow();
@@ -94,7 +94,7 @@ public class BookService {
 		borrow.setBookId(book.getId());
 		borrow.setBorrowTime(book.getBorrowTime());
 		borrow.setReturnTime(book.getReturnTime());
-		borrow.setCreateTime(TimeUtils.getUnixTimestamp());
+		borrow.setCreateTime(TimeUtil.getUnixTimestamp());
 		borrow = borrowRepository.save(borrow);
 
 		return;

@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 public class BookController extends BaseController {
 
 	@Autowired
-	BookService bookService;
+	private BookService bookService;
 
 	@GetMapping("/api/books")
 	public Ok<SearchBooksResponse> searchBooks(@RequestUser User user, @Valid SearchBooksQuery query)

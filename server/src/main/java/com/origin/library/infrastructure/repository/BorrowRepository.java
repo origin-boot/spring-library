@@ -29,7 +29,7 @@ public interface BorrowRepository extends JpaRepository<Borrow, Long>, AdvancedB
 @Service
 class AdvancedBorrowRepositoryImpl implements AdvancedBorrowRepository {
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
 
 	@Override
 	public Page<Borrow> searchMyBorrows(long userId, String keyword, int offset, int limit) {

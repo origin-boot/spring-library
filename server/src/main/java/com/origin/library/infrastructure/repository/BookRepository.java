@@ -27,7 +27,7 @@ public interface BookRepository extends JpaRepository<Book, Long>, AdvancedBookR
 @Service
 class AdvancedBookRepositoryImpl implements AdvancedBookRepository {
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
 
 	@Override
 	public Page<Book> searchBooks(String keyword, int offset, int limit) {
