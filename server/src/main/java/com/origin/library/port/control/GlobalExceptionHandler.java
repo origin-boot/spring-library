@@ -1,4 +1,4 @@
-package com.origin.library.infrastructure.controller;
+package com.origin.library.port.control;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -29,39 +29,97 @@ Client:
   - error
   - success
 - infrastructure
-  - controller
   - jwt
   - repository
   - util
   - ...
-- restful
+- port
+  - control
 
 ### Multi-Module Server
 
+- Application.java
 - shared
   - domain
   - infrastructure
-    - controller
+    - bus
+      - EventDispatcher.java
+    - sms
+    - email
+    - search
+    - orm
     - jwt
-    - repository
     - util
     - ...
+  - port 
+    - control
 - module1
   - domain
   - infrastructure
     - DepartmentRepository.java
-  - restful
+  - port 
 - module2
   - domain
+    - event
+      - UserAdded.java
+      - UserRemoved.java
+      - UserEdited.java
+      - UserLogined.java
+    - User.java
+    - UserService.java
+    - Book.java
+    - BookService.java
+    - UserBookService.java
   - infrastructure
+    - UserRepository.java
+    - BookRepository.java
   - port
     - restful
+      - CommandQuery.java
+      - UserController.java
+      - UserService.java
+      - BookController.java
+      - BookService.java
+      - OtherService.java
+      - view
+        - user.html
+        - book.html
     - console
+      - UserController.java
+      - UserService.java
+    - listener
+      - UserConsumer.java
+  
 
-Notes:
+### Explicit Architecture
 
-- Common files should be placed under `shared`.
-- If there is only one sub-module, move it up a level to avoid overly deep directory structures, see `DepartmentRepository.java` and `port` for reference.
+![ExplicitArchitecture](./docs/explicit_architecture.png)
+
+Guidelines:
+
+> Airmen who are considered insane can be grounded and excused from flying missions, but they must formally request to be grounded.
+
+1. Common files are placed under the "shared" directory.
+1. If there is only one sub-module, elevate it one level upwards to prevent excessively deep directory structures, see `DepartmentRepository.java` and `restful` for reference.
+1. Favor using classes over interfaces with a single implementation to avoid over-engineering; prioritize simplicity and readability in internal projects over extensibility in external projects.
+1. Class names need to directly represent their meanings, reducing unnecessary suffixes, such as not adding DTO or VO at the end of the name.
+1. Only classes that need to be accessed from outside the package should be public. Classes in the same category that are package-internal should all be placed in the same file.
+1. `module2` represents a complete project structure based on explicit architecture, suitable for organizing code in large projects.
+1. The top-level directory should only contain three directories: `domain`, `infrastructure`, and `port`.
+1. The `domain` directory is the domain layer, consisting of domain models, domain services, domain events, and domain errors.
+1. Domain models must have a unique ID, which should not be a composite ID, and can be a string or a number.
+1. Domain models can be database entities; entities can also be placed in the repository, and then transformed domain models are input or output by the repository.
+1. Slices or combinations of domain models are also placed in the domain directory; such classes are also called Data Transfer Objects (DTOs).
+1. Domain services typically operate on domain models in-memory; however, large projects may introduce adapters like repositories to facilitate code reuse.
+1. Use Error instead of Exception for domain errors, to distinguish them from system errors; moreover, do not introduce domain errors in the infrastructure.
+1. The `infrastructure` directory is the infrastructure layer, housing repositories, event buses, event dispatching, SMS, emails, search engines, third-party services, etc.
+1. The `infrastructure` directory can also include common class directories like `util`, representing a part of the infrastructure.
+1. Directly implement adapters in the infrastructure, replacing interfaces with classes if there is a single interface implementation.
+1. The `port` directory comprises the user interface layer, including RESTful ports, console ports, and event listening ports.
+1. `port.control` or `restful.control` manages the application control, incorporating interceptors, logs, authentication, etc.
+1. Place application services in the `port` directory to reduce the number of architectural layers and maintain simplicity.
+1. Commands and queries in the port are written directly in the `CommandQuery.java` file to reduce the Handler layer and maintain architectural simplicity.
+1. The `Application.java` file is responsible for configuring the project, resolving dependencies, combining ports, and starting the project.
 
 ## Code Submission Standards
 

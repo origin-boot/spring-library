@@ -1,4 +1,4 @@
-package com.origin.library.restful;
+package com.origin.library.port;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +12,8 @@ import com.origin.library.domain.error.RequestForbiddenError;
 import com.origin.library.domain.error.UserNotFoundError;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
-import com.origin.library.infrastructure.controller.BaseController;
-import com.origin.library.infrastructure.controller.RequestUser;
+import com.origin.library.port.control.BaseController;
+import com.origin.library.port.control.RequestUser;
 
 import jakarta.validation.Valid;
 

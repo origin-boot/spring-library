@@ -1,4 +1,4 @@
-package com.origin.library.infrastructure.controller;
+package com.origin.library.port.control;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
