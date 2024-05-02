@@ -90,8 +90,9 @@
       - UserConsumer.java
   
 
-![清晰架构](./docs/explicit_architecture_zh_CN.png)
+### 清晰架构
 
+![清晰架构](./docs/explicit_architecture_zh_CN.png)
 
 说明：
 
@@ -116,7 +117,6 @@
 1. port中放置应用服务，以减少架构的分层层数，以保持架构的简洁性。
 1. port中的命令和查询直接写在`CommandQuery.java`文件，减少Handler层以保持架构简洁性。
 1. Application.java文件中实现对项目的配置、依赖的解决、端口的组合、项目的启动等。
-
 
 ## 代码提交规范
 
