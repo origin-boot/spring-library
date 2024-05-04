@@ -20,6 +20,11 @@
 - ElementUI: https://github.com/element-plus/element-plus
 - TypeScript: https://www.typescriptlang.org/
 
+## 运行项目
+
+    $ ./mvnw install && ./mvnw spring-boot:run --projects com.origin:library
+    $ ./mvnw install && ./mvnw spring-boot:run --projects com.origin:hello
+
 ## 项目结构
 
 ### 单模块服务端

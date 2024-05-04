@@ -1,0 +1,12 @@
+### global variables
+
+@hostname = localhost
+@port = 8081
+@baseUrl = http://{{hostname}}:{{port}}
+@contentType = application/x-www-form-urlencoded
+@authToken=
+
+### hello
+
+GET {{baseUrl}}/api/hello HTTP/1.1
+Content-Type: {{contentType}}

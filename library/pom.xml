@@ -12,6 +12,7 @@
 	<groupId>com.origin</groupId>
 	<artifactId>library</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>library</name>
 	<description>A library book borrowing management system</description>
 	<properties>
@@ -90,7 +91,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	<!-- DOT NOT REMOVE THIS COMMENT, FOR FIXING ./mvnw install ERROR
 	<build>
 		<plugins>
 			<plugin>
@@ -99,5 +100,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	-->
 </project>

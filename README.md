@@ -21,6 +21,11 @@ Client:
 - ElementUI: https://github.com/element-plus/element-plus
 - TypeScript: https://www.typescriptlang.org/
 
+## Run projects
+
+    $ ./mvnw install && ./mvnw spring-boot:run --projects com.origin:library
+    $ ./mvnw install && ./mvnw spring-boot:run --projects com.origin:hello
+
 ## Project Structure
 
 ### Single Module Server
