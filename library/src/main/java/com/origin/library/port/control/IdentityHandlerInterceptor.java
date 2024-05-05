@@ -12,8 +12,6 @@ import com.origin.library.infrastructure.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.List;
-
 @Component
 public class IdentityHandlerInterceptor implements HandlerInterceptor {
 
@@ -44,10 +42,19 @@ public class IdentityHandlerInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
-	void addInterceptors(InterceptorRegistry registry) {
-		List<String> guestPathPatterns = List.of("/api/login");
+	public void save(HttpServletResponse response, String id) throws Exception {
+		// FIXME: The renewal implementation of jwt token can be placed in the
+		// interceptor,
+		// or a separate renewal interface can be implemented,
+		// or it can be implemented in a common API.
 
-		registry.addInterceptor(this)
-				.excludePathPatterns(guestPathPatterns);
+		response.setHeader(ATTRIBUTE, id);
+
+		String token = jwtService.generateToken(id);
+		jwtService.injectToken(response, token);
+	}
+
+	void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(this);
 	}
 }

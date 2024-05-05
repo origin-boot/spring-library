@@ -4,9 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import com.origin.library.infrastructure.util.RandomUtil;
@@ -75,8 +75,8 @@ public class JwtService {
                 .compact();
     }
 
-    public void injectToken(HttpHeaders headers, String token) {
-        headers.set("Authorization", "Bearer " + token);
+    public void injectToken(HttpServletResponse response, String token) {
+        response.setHeader("Authorization", "Bearer " + token);
     }
 
     public String extractToken(HttpServletRequest request) {
