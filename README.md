@@ -123,7 +123,7 @@ Guidelines:
 1. The `port` directory comprises the user interface layer, including RESTful ports, console ports, and event listening ports.
 1. `port.control` or `restful.control` manages the application control, incorporating interceptors, logs, authentication, etc.
 1. Place application services in the `port` directory to reduce the number of architectural layers and maintain simplicity.
-1. Commands and queries in the port are written directly in the `CommandQuery.java` file to reduce the Handler layer and maintain architectural simplicity.
+1. The commands and queries in the port are directly written in the `CommandQuery.java` file, and the Handler layer is used instead of the AppService layer to maintain the simplicity of the architecture.
 1. The `Application.java` file is responsible for configuring the project, resolving dependencies, combining ports, and starting the project.
 
 ## Code Submission Standards

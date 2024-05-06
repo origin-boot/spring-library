@@ -21,18 +21,18 @@ import jakarta.validation.Valid;
 public class BookController extends BaseController {
 
 	@Autowired
-	private BookService bookService;
+	private BookHandler bookHandler;
 
 	@GetMapping("/api/books")
 	public Ok<SearchBooksResponse> searchBooks(@RequestUser User user, @Valid SearchBooksQuery query)
 			throws UserNotFoundError {
 
 		if (query.getMine()) {
-			SearchBooksResponse response = bookService.searchMyBooks(user, query);
+			SearchBooksResponse response = bookHandler.searchMyBooks(user, query);
 			return Ok.of(response);
 		}
 
-		SearchBooksResponse response = bookService.searchBooks(user, query);
+		SearchBooksResponse response = bookHandler.searchBooks(user, query);
 		return Ok.of(response);
 	}
 
@@ -42,7 +42,7 @@ public class BookController extends BaseController {
 			RequestForbiddenError,
 			UserNotFoundError {
 
-		bookService.borrowBook(user, id);
+		bookHandler.borrowBook(user, id);
 
 		return Ok.empty();
 	}
@@ -53,7 +53,7 @@ public class BookController extends BaseController {
 			RequestForbiddenError,
 			UserNotFoundError {
 
-		bookService.returnBook(user, id);
+		bookHandler.returnBook(user, id);
 
 		return Ok.empty();
 	}

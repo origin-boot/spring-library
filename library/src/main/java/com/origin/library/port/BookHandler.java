@@ -13,12 +13,12 @@ import com.origin.library.infrastructure.repository.BorrowRepository;
 import com.origin.library.infrastructure.util.TimeUtil;
 
 @Service
-public class BookService {
+public class BookHandler {
 
 	private BookRepository bookRepository;
 	private BorrowRepository borrowRepository;
 
-	public BookService(final BookRepository bookRepository, final BorrowRepository borrowRepository) {
+	public BookHandler(final BookRepository bookRepository, final BorrowRepository borrowRepository) {
 		this.bookRepository = bookRepository;
 		this.borrowRepository = borrowRepository;
 	}

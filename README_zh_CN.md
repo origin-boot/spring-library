@@ -120,7 +120,7 @@
 1. port目录是用户界面层，包括restful端口、控制台端口、事件监听端口。
 1. port.control或restful.control代表对应用的控制，包含拦截器、日志、身份验证等。
 1. port中放置应用服务，以减少架构的分层层数，以保持架构的简洁性。
-1. port中的命令和查询直接写在`CommandQuery.java`文件，减少Handler层以保持架构简洁性。
+1. port中的命令和查询直接写在`CommandQuery.java`文件，使用Handler层代替AppService层以保持架构简洁性。
 1. Application.java文件中实现对项目的配置、依赖的解决、端口的组合、项目的启动等。
 
 ## 代码提交规范
