@@ -6,9 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.origin.library.infrastructure.util.RandomUtil;
 
 import java.util.Date;
@@ -16,23 +13,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
 public class JwtService {
 
-    @Value("${jwt.sign}")
-    private String sign;
+    protected String sign;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    protected String secret;
 
-    @Value("${jwt.expiration}")
-    private int expiration;
+    protected int expiration;
 
     private String salt;
 
     private String separator;
 
-    JwtService() {
+    public JwtService(String sign, String secret, int expiration) {
+        this.sign = sign;
+        this.secret = secret;
+        this.expiration = expiration;
         this.salt = RandomUtil.generateRandomString(256);
         this.separator = "\n";
     }
