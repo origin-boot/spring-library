@@ -8,14 +8,14 @@ import com.origin.library.infrastructure.util.ExceptionUtil;
 import java.util.Base64;
 import java.util.logging.Logger;
 
-public class AESEncryptionService {
+public class AesEncryptionService {
 
   private static final String ALGORITHM = "AES";
-  private static Logger logger = Logger.getLogger(AESEncryptionService.class.getName());
+  private static Logger logger = Logger.getLogger(AesEncryptionService.class.getName());
 
   private String secret;
 
-  public AESEncryptionService(String secret) {
+  public AesEncryptionService(String secret) {
     this.secret = secret;
   }
 

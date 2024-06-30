@@ -5,7 +5,7 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 
 public class ShortcutPredicateBuilder {
-  private BooleanBuilder q = new BooleanBuilder();
+  private BooleanBuilder builder = new BooleanBuilder();
 
   public ShortcutPredicateBuilder and(boolean condition, Predicate b) {
     if (condition) {
@@ -21,15 +21,8 @@ public class ShortcutPredicateBuilder {
     return this;
   }
 
-  public ShortcutPredicateBuilder andAnyOf(boolean condition, Predicate... b) {
-    if (condition) {
-      return addAnyOf(b);
-    }
-    return this;
-  }
-
   public ShortcutPredicateBuilder and(Predicate b) {
-    q.and(b);
+    builder.and(b);
     return this;
   }
 
@@ -44,7 +37,14 @@ public class ShortcutPredicateBuilder {
     if (b.length == 0) {
       return this;
     }
-    q.and(ExpressionUtils.allOf(b));
+    builder.and(ExpressionUtils.allOf(b));
+    return this;
+  }
+
+  public ShortcutPredicateBuilder andAnyOf(boolean condition, Predicate... b) {
+    if (condition) {
+      return addAnyOf(b);
+    }
     return this;
   }
 
@@ -59,7 +59,7 @@ public class ShortcutPredicateBuilder {
     if (b.length == 0) {
       return this;
     }
-    q.andAnyOf(b);
+    builder.andAnyOf(b);
     return this;
   }
 
@@ -77,15 +77,8 @@ public class ShortcutPredicateBuilder {
     return this;
   }
 
-  public ShortcutPredicateBuilder orAllOf(boolean condition, Predicate... b) {
-    if (condition) {
-      return orAllOf(b);
-    }
-    return this;
-  }
-
   public ShortcutPredicateBuilder or(Predicate b) {
-    q.or(b);
+    builder.or(b);
     return this;
   }
 
@@ -100,7 +93,14 @@ public class ShortcutPredicateBuilder {
     if (b.length == 0) {
       return this;
     }
-    q.or(ExpressionUtils.anyOf(b));
+    builder.or(ExpressionUtils.anyOf(b));
+    return this;
+  }
+
+  public ShortcutPredicateBuilder orAllOf(boolean condition, Predicate... b) {
+    if (condition) {
+      return orAllOf(b);
+    }
     return this;
   }
 
@@ -115,11 +115,11 @@ public class ShortcutPredicateBuilder {
     if (b.length == 0) {
       return this;
     }
-    q.orAllOf(b);
+    builder.orAllOf(b);
     return this;
   }
 
   public BooleanBuilder build() {
-    return q;
+    return builder;
   }
 }

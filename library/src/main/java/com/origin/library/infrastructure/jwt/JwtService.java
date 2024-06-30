@@ -35,7 +35,7 @@ public class JwtService {
 
   private String encryptedSubject(String id) throws Exception {
     String subject = id + separator + salt;
-    AESEncryptionService aes = new AESEncryptionService(secret);
+    AesEncryptionService aes = new AesEncryptionService(secret);
     String encryptedSubject = aes.encryptString(subject);
     if (encryptedSubject == null) {
       throw new Exception("encrypt subject in jwt");
@@ -44,7 +44,7 @@ public class JwtService {
   }
 
   private String decryptedSubject(String encryptedSubject) throws Exception {
-    AESEncryptionService aes = new AESEncryptionService(secret);
+    AesEncryptionService aes = new AesEncryptionService(secret);
     String subject = aes.decryptString(encryptedSubject);
     if (subject == null) {
       throw new Exception("decrypt subject in jwt");

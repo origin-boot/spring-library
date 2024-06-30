@@ -30,4 +30,12 @@ if [ ${#params[@]} -eq 0 ]; then
     exit 1
 fi
 
-java -jar $CS_JAR -c $CS_CONFIG "${params[@]}"
+LOGS=$( java -jar "$CS_JAR" -c "$CS_CONFIG" "${params[@]}" )
+echo "$LOGS"
+
+if echo "$LOGS" | grep -q "\["; then
+    echo "Error or warning detected in the logs."
+    exit 1
+else
+    echo "No errors or warnings detected."
+fi

@@ -18,8 +18,9 @@ public class ErrorSerializer extends StdSerializer<Error> {
   }
 
   @Override
-  public void serialize(Error error, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-      throws IOException {
+  public void serialize(Error error, JsonGenerator jsonGenerator,
+      SerializerProvider serializerProvider) throws IOException {
+
     jsonGenerator.writeStartObject();
     jsonGenerator.writeNumberField("code", error.code);
     jsonGenerator.writeStringField("message", error.message);

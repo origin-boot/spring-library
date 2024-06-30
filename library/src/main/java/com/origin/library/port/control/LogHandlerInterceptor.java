@@ -29,8 +29,8 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
   }
 
   @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-      throws Exception {
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+      Object handler, Exception ex) throws Exception {
 
     long startTime = (Long) request.getAttribute(createTimeAttr);
     long endTime = System.currentTimeMillis();
@@ -39,7 +39,7 @@ public class LogHandlerInterceptor implements HandlerInterceptor {
     LogEntry logEntry = new LogEntry(request, response, executeTime);
     // FIXME: Use the more general Formatter class to replace the toJSONString
     // method
-    logger.info(logEntry.toJSONString());
+    logger.info(logEntry.toJsonString());
   }
 
 }
@@ -74,7 +74,7 @@ class LogEntry {
     this.message = "http request";
   }
 
-  String toJSONString() {
+  String toJsonString() {
     return JSON.toJSONString(this);
   }
 

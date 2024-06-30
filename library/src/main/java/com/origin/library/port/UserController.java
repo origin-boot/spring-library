@@ -28,7 +28,8 @@ public class UserController extends BaseController {
       throws UserNotFoundError, UsernameOrPasswordError, Exception {
 
     User user = userRepository.findByUsername(command.getUsername())
-        .orElseThrow(() -> new UserNotFoundError().setDetails("username: " + command.getUsername()));
+        .orElseThrow(() -> new UserNotFoundError()
+            .setDetails("username: " + command.getUsername()));
 
     if (!user.isMatchPassword(command.getPassword())) {
       throw new UsernameOrPasswordError().setDetails("username: " + command.getUsername());

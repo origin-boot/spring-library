@@ -12,7 +12,7 @@ public class Error extends Exception {
   public String details;
   protected int status;
 
-  private final static int DEFAULT_STATUS = 500;
+  private static final int DEFAULT_STATUS = 500;
 
   public Error(int code, String message) {
     new Error(code, message, "", DEFAULT_STATUS);

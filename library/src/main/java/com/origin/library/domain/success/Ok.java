@@ -9,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 
 public class Ok<T> extends ResponseEntity<T> {
 
-  public Ok(@Nullable T body, @Nullable MultiValueMap<String, String> headers, HttpStatusCode statusCode) {
+  public Ok(@Nullable T body, @Nullable MultiValueMap<String, String> headers,
+      HttpStatusCode statusCode) {
     super(body, headers, statusCode);
   }
 
@@ -29,6 +30,8 @@ public class Ok<T> extends ResponseEntity<T> {
       HttpStatusCode statusCode) {
 
     return (Ok<T>) status(statusCode)
-        .headers(HttpHeaders.readOnlyHttpHeaders(headers != null ? headers : new HttpHeaders())).body(body);
+        .headers(HttpHeaders.readOnlyHttpHeaders(
+            headers != null ? headers : new HttpHeaders()))
+        .body(body);
   }
 }

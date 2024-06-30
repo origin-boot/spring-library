@@ -29,7 +29,8 @@ public class BookHandler {
   }
 
   public SearchBooksResponse searchBooks(User user, SearchBooksQuery query) {
-    Page<Book> pagedBooks = bookRepository.searchBooks(query.getName(), query.getPageNum(), query.getPageSize());
+    Page<Book> pagedBooks = bookRepository.searchBooks(query.getName(),
+        query.getPageNum(), query.getPageSize());
     SearchBooksResponse response = SearchBooksResponse.of(pagedBooks)
         .getUserView(user);
 
