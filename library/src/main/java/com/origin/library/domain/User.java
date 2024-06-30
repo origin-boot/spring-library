@@ -14,20 +14,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-	@Column(name = "username")
-	private String username;
+  @Column(name = "username")
+  private String username;
 
-	@Column(name = "password")
-	private String password;
+  @Column(name = "password")
+  private String password;
 
-	@Column(name = "create_time")
-	private long createTime;
+  @Column(name = "create_time")
+  private long createTime;
 
-	public boolean isMatchPassword(String inputPassword) {
-		return this.password != null && this.password.equals(inputPassword);
-	}
+  public boolean isMatchPassword(String inputPassword) {
+    return this.password != null && this.password.equals(inputPassword);
+  }
 }
