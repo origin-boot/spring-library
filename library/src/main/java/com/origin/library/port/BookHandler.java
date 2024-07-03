@@ -1,5 +1,6 @@
 package com.origin.library.port;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.origin.library.domain.Book;
@@ -10,18 +11,20 @@ import com.origin.library.domain.error.BookNotFoundError;
 import com.origin.library.domain.error.RequestForbiddenError;
 import com.origin.library.infrastructure.repository.BookRepository;
 import com.origin.library.infrastructure.repository.BorrowRepository;
+import com.origin.library.infrastructure.transaction.BorrowBookTransaction;
 import com.origin.library.infrastructure.util.TimeUtil;
 
 @Service
 public class BookHandler {
 
-  private BookRepository bookRepository;
-  private BorrowRepository borrowRepository;
+  @Autowired
+  private BorrowBookTransaction borrowBookTransaction;
 
-  public BookHandler(final BookRepository bookRepository, final BorrowRepository borrowRepository) {
-    this.bookRepository = bookRepository;
-    this.borrowRepository = borrowRepository;
-  }
+  @Autowired
+  private BookRepository bookRepository;
+
+  @Autowired
+  private BorrowRepository borrowRepository;
 
   public Book getBookById(Long id) throws BookNotFoundError {
     return bookRepository.findById(id).orElseThrow(
@@ -53,18 +56,9 @@ public class BookHandler {
       throw new RequestForbiddenError().setDetails("Book is not available for borrowing");
     }
 
-    book.setUserId(user.getId());
-    book.setReturnTime(0);
-    book.setBorrowTime(TimeUtil.getUnixTimestamp());
-    book = bookRepository.save(book);
-
-    Borrow borrow = new Borrow();
-    borrow.setUserId(user.getId());
-    borrow.setBookId(book.getId());
-    borrow.setBorrowTime(book.getBorrowTime());
-    borrow.setReturnTime(book.getReturnTime());
-    borrow.setCreateTime(TimeUtil.getUnixTimestamp());
-    borrow = borrowRepository.save(borrow);
+    // A simple example code for using transactions, which is not used in actual
+    // business
+    borrowBookTransaction.execute(user, book);
 
     return;
   }
