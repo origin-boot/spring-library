@@ -1,9 +1,6 @@
 package com.origin.library.infrastructure.redis;
 
 import java.util.Optional;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import com.origin.library.infrastructure.util.ApplicationContextUtil;
 
 public class UserCount extends ShortcutOperator implements RedisCacher {
   private long userId;
@@ -11,16 +8,8 @@ public class UserCount extends ShortcutOperator implements RedisCacher {
   private static final String LOGIN_COUNT = "loginCount";
 
   public UserCount(long userId) {
-    this.init();
+    this.initConnection();
     this.userId = userId;
-  }
-
-  @Override
-  public void init() {
-    @SuppressWarnings("unchecked")
-    RedisTemplate<String, Object> redisTemplate = ApplicationContextUtil
-        .getBean("redisTemplate", RedisTemplate.class);
-    super.setRedisTemplate(redisTemplate);
   }
 
   @Override

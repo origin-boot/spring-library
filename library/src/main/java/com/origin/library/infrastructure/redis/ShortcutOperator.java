@@ -2,6 +2,8 @@ package com.origin.library.infrastructure.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.origin.library.infrastructure.util.ApplicationContextUtil;
+
 import java.util.concurrent.TimeUnit;
 import java.util.Date;
 import java.util.Optional;
@@ -12,6 +14,22 @@ public abstract class ShortcutOperator {
 
   private static String globalPrefix = "";
   private String sessionPrefix = "";
+  private boolean isInitialized = false;
+
+  public void initConnection() {
+    if (isInitialized) {
+      return;
+    }
+    isInitialized = true;
+    initRedisTemplate();
+  }
+
+  private void initRedisTemplate() {
+    @SuppressWarnings("unchecked")
+    RedisTemplate<String, Object> redisTemplate = ApplicationContextUtil
+        .getBean("redisTemplate", RedisTemplate.class);
+    setRedisTemplate(redisTemplate);
+  }
 
   protected void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
     this.redisTemplate = redisTemplate;
