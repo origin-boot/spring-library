@@ -27,6 +27,8 @@ jobs:
 
       redis:
         image: redis:7.2
+        env:
+          REDIS_PASSWORD: 123456
         ports:
           - 6379:6379
         options: >-
@@ -34,8 +36,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        env:
-          REDIS_PASSWORD: 123456
 
     steps:
     - name: Checkout code
@@ -51,6 +51,11 @@ jobs:
 
     - name: Verify tables exists
       run: mysql --host 127.0.0.1 --port 3306 -uroot library -e "SHOW TABLES"
+
+    - name: Install Redis CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y redis-tools
 
     - name: Verify Redis
       run: redis-cli -h localhost -p 6379 -a 123456 dbsize
