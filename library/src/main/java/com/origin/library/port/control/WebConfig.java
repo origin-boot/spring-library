@@ -1,6 +1,8 @@
 package com.origin.library.port.control;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.origin.library.infrastructure.redis.ShortcutOperator;
 
 @Configuration
@@ -44,6 +49,17 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     return template;
+  }
+
+  @Bean
+  public EventBus eventBus() {
+    return new EventBus();
+  }
+
+  @Bean
+  public AsyncEventBus asyncEventBus(@Value("${eventbus.thread.pool.size}") final int threads) {
+    ExecutorService executorService = Executors.newFixedThreadPool(threads);
+    return new AsyncEventBus(MoreExecutors.listeningDecorator(executorService));
   }
 
   private JedisConnectionFactory jedisConnectionFactory(

@@ -1,17 +1,21 @@
 package com.origin.library.port;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.origin.library.domain.User;
 import com.origin.library.domain.error.UserNotFoundError;
 import com.origin.library.domain.error.UsernameOrPasswordError;
+import com.origin.library.domain.event.UserLoginEvent;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
 import com.origin.library.infrastructure.repository.UserRepository;
 import com.origin.library.port.control.BaseController;
 
+import jakarta.servlet.AsyncEvent;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -20,6 +24,9 @@ public class UserController extends BaseController {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private AsyncEventBus asyncEventBus;
 
   @PostMapping("/api/login")
   public Ok<UserResource> login(
@@ -37,6 +44,10 @@ public class UserController extends BaseController {
 
     UserResource response = UserResource.of(user);
     identityHandlerInterceptor.save(httpServletResponse, String.valueOf(user.getId()));
+
+    // Publish user login event
+    asyncEventBus.post(new UserLoginEvent(user.getId()));
+
     return Ok.of(response);
   }
 
