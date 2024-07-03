@@ -19,7 +19,23 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+      redis:
+        image: redis:7.2
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          REDIS_PASSWORD: 123456
 
     steps:
     - name: Checkout code
@@ -35,6 +51,9 @@ jobs:
 
     - name: Verify tables exists
       run: mysql --host 127.0.0.1 --port 3306 -uroot library -e "SHOW TABLES"
+
+    - name: Verify Redis
+      run: redis-cli -h localhost -p 6379 -a 123456 dbsize
 
     - name: Set up JDK
       uses: actions/setup-java@v4
