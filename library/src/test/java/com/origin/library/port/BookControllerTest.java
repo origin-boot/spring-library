@@ -63,7 +63,7 @@ public class BookControllerTest extends ShortcutTester {
   public void testSearchMyBooks() {
     SearchBooksQuery query = new SearchBooksQuery();
     query.setName("");
-    query.setMine(false);
+    query.setMine(true);
     query.setPageNum(1);
     query.setPageSize(5);
 
