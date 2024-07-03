@@ -31,7 +31,7 @@ public class UserCount extends ShortcutOperator implements RedisCacher {
     return Long.parseLong(value);
   }
 
-  public void setLoginCount(long count) {
-    hashSet(getKey(), LOGIN_COUNT, String.valueOf(count));
+  public void increaseLoginCount() {
+    hashIncrement(getKey(), LOGIN_COUNT, 1);
   }
 }

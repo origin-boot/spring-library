@@ -6,6 +6,7 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.origin.library.domain.event.UserLoginEvent;
+import com.origin.library.infrastructure.redis.UserCount;
 
 import java.util.logging.Logger;
 
@@ -22,6 +23,7 @@ public class EventController {
   @Subscribe
   public void handleUserLoginEvent(UserLoginEvent event) {
     logger.info("User login event: " + event.getUserId());
+    new UserCount(event.getUserId()).increaseLoginCount();
   }
 
 }

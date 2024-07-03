@@ -27,7 +27,7 @@ public abstract class ShortcutOperator {
   private void initRedisTemplate() {
     @SuppressWarnings("unchecked")
     RedisTemplate<String, Object> redisTemplate = ApplicationContextUtil
-        .getBean("redisTemplate", RedisTemplate.class);
+        .getBean("stringRedisTemplate", RedisTemplate.class);
     setRedisTemplate(redisTemplate);
   }
 

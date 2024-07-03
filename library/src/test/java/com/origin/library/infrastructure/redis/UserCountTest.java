@@ -8,7 +8,7 @@ public class UserCountTest {
   @Test
   public void testGetLoginCount() {
     UserCount userCount = new UserCount(1L);
-    userCount.setLoginCount(10);
-    assert userCount.getLoginCount() == 10;
+    userCount.increaseLoginCount();
+    assert userCount.getLoginCount() > 0;
   }
 }
