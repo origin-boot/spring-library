@@ -1,0 +1,1 @@
+ALTER TABLE users ADD INDEX idx_create_time (create_time);
