@@ -1,16 +1,32 @@
 package com.origin.library.infrastructure.querydsl;
 
-import java.util.List;
-
-import com.origin.library.domain.Page;
-import com.querydsl.jpa.impl.JPAQuery;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-public class ShortcutPagingQuery implements ShortcutExecutor {
+import java.util.List;
+
+import com.origin.library.domain.Page;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.jpa.impl.JPADeleteClause;
+import com.querydsl.jpa.impl.JPAInsertClause;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+
+public class ShortcutExecute implements ShortcutExecutor {
   @PersistenceContext
-  private EntityManager em;
+  protected EntityManager em;
+
+  public JPAInsertClause insert(EntityPath<?> entity) {
+    return new JPAInsertClause(em, entity);
+  }
+
+  public JPADeleteClause delete(EntityPath<?> entity) {
+    return new JPADeleteClause(em, entity);
+  }
+
+  public JPAUpdateClause update(EntityPath<?> entity) {
+    return new JPAUpdateClause(em, entity);
+  }
 
   public <T> Page<T> findAll(ShortcutQueryFunction<T> queryFunction, int pageNumber, int pageSize) {
     JPAQuery<T> query = new JPAQuery<>(em);

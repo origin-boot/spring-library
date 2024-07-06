@@ -5,13 +5,15 @@ import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.origin.library.domain.Page;
 import com.origin.library.domain.QUser;
 import com.origin.library.domain.User;
-import com.origin.library.infrastructure.querydsl.ShortcutPagingQuery;
+import com.origin.library.infrastructure.querydsl.ShortcutExecute;
 import com.origin.library.infrastructure.querydsl.ShortcutPredicateExecutor;
 import com.querydsl.core.types.Predicate;
+
 
 public interface UserRepository
     extends JpaRepository<User, Long>, ShortcutPredicateExecutor<User>, AdvancedUserRepository {
@@ -30,10 +32,14 @@ public interface UserRepository
 
 interface AdvancedUserRepository {
   Page<User> searchUsers(String keyword, int pageSize);
+
+  boolean updateUserCreateTime(long userId);
+
+  long deleteUserBeforeTime(long createTime);
 }
 
 @Service
-class AdvancedUserRepositoryImpl extends ShortcutPagingQuery implements AdvancedUserRepository {
+class AdvancedUserRepositoryImpl extends ShortcutExecute implements AdvancedUserRepository {
   // FIXME: remove the example
   @Override
   public Page<User> searchUsers(String keyword, int pageSize) {
@@ -56,5 +62,30 @@ class AdvancedUserRepositoryImpl extends ShortcutPagingQuery implements Advanced
             .where(p),
         pageSize);
     return r;
+  }
+
+  // FIXME: remove the example
+  @Override
+  @Transactional
+  public boolean updateUserCreateTime(long userId) {
+    QUser a = QUser.user;
+    Predicate p = predicate().and(a.id.eq(userId)).build();
+    long rowsAffected = update(a)
+        .set(a.createTime, a.createTime.add(1))
+        .where(p)
+        .execute();
+    return rowsAffected > 0;
+  }
+
+  // FIXME: remove the example
+  @Override
+  @Transactional
+  public long deleteUserBeforeTime(long createTime) {
+    QUser a = QUser.user;
+    Predicate p = predicate().and(a.createTime.lt(createTime)).build();
+    long rowsAffected = delete(a)
+        .where(p)
+        .execute();
+    return rowsAffected;
   }
 }

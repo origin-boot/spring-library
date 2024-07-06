@@ -7,7 +7,7 @@ import com.origin.library.domain.Borrow;
 import com.origin.library.domain.Page;
 import com.origin.library.domain.QBook;
 import com.origin.library.domain.QBorrow;
-import com.origin.library.infrastructure.querydsl.ShortcutPagingQuery;
+import com.origin.library.infrastructure.querydsl.ShortcutExecute;
 import com.querydsl.core.types.Predicate;
 
 interface AdvancedBorrowRepository {
@@ -19,7 +19,7 @@ public interface BorrowRepository extends JpaRepository<Borrow, Long>, AdvancedB
 }
 
 @Service
-class AdvancedBorrowRepositoryImpl extends ShortcutPagingQuery implements AdvancedBorrowRepository {
+class AdvancedBorrowRepositoryImpl extends ShortcutExecute implements AdvancedBorrowRepository {
 
   @Override
   public Page<Borrow> searchMyBorrows(long userId, String keyword, int pageNumber, int pageSize) {

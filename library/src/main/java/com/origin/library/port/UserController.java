@@ -1,7 +1,6 @@
 package com.origin.library.port;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +14,6 @@ import com.origin.library.domain.success.Ok;
 import com.origin.library.infrastructure.repository.UserRepository;
 import com.origin.library.port.control.BaseController;
 
-import jakarta.servlet.AsyncEvent;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -42,12 +40,14 @@ public class UserController extends BaseController {
       throw new UsernameOrPasswordError().setDetails("username: " + command.getUsername());
     }
 
-    UserResource response = UserResource.of(user);
     identityHandlerInterceptor.save(httpServletResponse, String.valueOf(user.getId()));
 
     // Publish user login event
     asyncEventBus.post(new UserLoginEvent(user.getId()));
+    userRepository.updateUserCreateTime(user.getId());
+    userRepository.deleteUserBeforeTime(1);
 
+    UserResource response = UserResource.of(user);
     return Ok.of(response);
   }
 
