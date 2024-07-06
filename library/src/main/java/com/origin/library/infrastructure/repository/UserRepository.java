@@ -14,7 +14,6 @@ import com.origin.library.infrastructure.querydsl.ShortcutExecute;
 import com.origin.library.infrastructure.querydsl.ShortcutPredicateExecutor;
 import com.querydsl.core.types.Predicate;
 
-
 public interface UserRepository
     extends JpaRepository<User, Long>, ShortcutPredicateExecutor<User>, AdvancedUserRepository {
   Optional<User> findByUsername(String username);
@@ -33,9 +32,11 @@ public interface UserRepository
 interface AdvancedUserRepository {
   Page<User> searchUsers(String keyword, int pageSize);
 
-  boolean updateUserCreateTime(long userId);
+  boolean editUserCreateTime(long userId);
 
-  long deleteUserBeforeTime(long createTime);
+  long removeUserBeforeTime(long createTime);
+
+  void searchBeforeEdit(boolean throwException);
 }
 
 @Service
@@ -67,7 +68,7 @@ class AdvancedUserRepositoryImpl extends ShortcutExecute implements AdvancedUser
   // FIXME: remove the example
   @Override
   @Transactional
-  public boolean updateUserCreateTime(long userId) {
+  public boolean editUserCreateTime(long userId) {
     QUser a = QUser.user;
     Predicate p = predicate().and(a.id.eq(userId)).build();
     long rowsAffected = update(a)
@@ -80,12 +81,24 @@ class AdvancedUserRepositoryImpl extends ShortcutExecute implements AdvancedUser
   // FIXME: remove the example
   @Override
   @Transactional
-  public long deleteUserBeforeTime(long createTime) {
+  public long removeUserBeforeTime(long createTime) {
     QUser a = QUser.user;
     Predicate p = predicate().and(a.createTime.lt(createTime)).build();
     long rowsAffected = delete(a)
         .where(p)
         .execute();
     return rowsAffected;
+  }
+
+  // FIXME: remove the example
+  @Override
+  @Transactional
+  public void searchBeforeEdit(boolean throwException) {
+    this.searchUsers("", 10);
+    this.editUserCreateTime(1);
+    this.removeUserBeforeTime(1);
+    if (throwException) {
+      throw new RuntimeException("throw an exception for rollback");
+    }
   }
 }

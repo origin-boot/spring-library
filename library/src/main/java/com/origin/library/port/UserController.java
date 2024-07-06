@@ -44,8 +44,9 @@ public class UserController extends BaseController {
 
     // Publish user login event
     asyncEventBus.post(new UserLoginEvent(user.getId()));
-    userRepository.updateUserCreateTime(user.getId());
-    userRepository.deleteUserBeforeTime(1);
+    // userRepository.editUserCreateTime(user.getId());
+    // userRepository.removeUserBeforeTime(1);
+    // userRepository.searchBeforeEdit(true);
 
     UserResource response = UserResource.of(user);
     return Ok.of(response);
