@@ -1,8 +1,8 @@
 package com.origin.library.port.control;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +20,8 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.origin.library.infrastructure.redis.ShortcutOperator;
+
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -58,7 +60,11 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Bean
   public AsyncEventBus asyncEventBus(@Value("${eventbus.thread.pool.size}") final int threads) {
-    ExecutorService executorService = Executors.newFixedThreadPool(threads);
+    ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(threads,
+        new BasicThreadFactory.Builder()
+            .namingPattern("async-event-bus-pool-%d")
+            .daemon(true)
+            .build());
     return new AsyncEventBus(MoreExecutors.listeningDecorator(executorService));
   }
 
