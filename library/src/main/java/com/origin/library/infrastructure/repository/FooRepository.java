@@ -8,9 +8,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.origin.library.domain.Page;
 import com.origin.library.domain.QFoo;
 import com.origin.library.domain.Foo;
+import com.origin.library.domain.dto.A2Count;
 import com.origin.library.infrastructure.querydsl.ShortcutExecute;
 import com.origin.library.infrastructure.querydsl.ShortcutPredicateExecutor;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.Expressions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface FooRepository
     extends JpaRepository<Foo, Long>, ShortcutPredicateExecutor<Foo>, AdvancedFooRepository {
@@ -39,6 +46,8 @@ interface AdvancedFooRepository {
   boolean editExample3();
 
   long removeExample4();
+
+  List<A2Count> countExample5();
 }
 
 @Service
@@ -65,5 +74,25 @@ class AdvancedFooRepositoryImpl extends ShortcutExecute implements AdvancedFooRe
         .where(p)
         .execute();
     return rowsAffected;
+  }
+
+  @Override
+  public List<A2Count> countExample5() {
+    QFoo a = QFoo.foo;
+    List<Tuple> tuples = findAll(
+        q -> q
+            .select(a.a2, Expressions.ONE.count().as("count"))
+            .from(a)
+            .groupBy(a.a2));
+
+    List<A2Count> list = new ArrayList<>();
+    tuples.stream().forEach(tuple -> {
+      A2Count m = new A2Count();
+      m.setA2(tuple.get(a.a2));
+      m.setCount(tuple.get(1, Long.class));
+      list.add(m);
+    });
+
+    return list;
   }
 }

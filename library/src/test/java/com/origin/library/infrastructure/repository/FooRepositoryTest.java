@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.origin.library.domain.Foo;
 import com.origin.library.domain.Page;
+import com.origin.library.domain.dto.A2Count;
 import com.origin.library.domain.vo.A2;
 import com.origin.library.domain.vo.FooJson;
 import com.origin.library.infrastructure.util.TimeUtil;
@@ -63,5 +66,9 @@ public class FooRepositoryTest {
 
     long e4 = fooRepository.removeExample4();
     assertNotNull(e4);
+
+    List<A2Count> e5 = fooRepository.countExample5();
+    assertNotNull(e5);
+    System.out.println("countExample5: " + e5);
   }
 }

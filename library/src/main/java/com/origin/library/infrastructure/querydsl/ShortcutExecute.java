@@ -28,6 +28,15 @@ public class ShortcutExecute implements ShortcutExecutor {
     return new JPAUpdateClause(em, entity);
   }
 
+  public <T> List<T> findAll(ShortcutQueryFunction<T> queryFunction) {
+    JPAQuery<T> query = new JPAQuery<>(em);
+    queryFunction.apply(query);
+    
+    List<T> list = query.fetch();
+    return list;
+  }
+
+
   public <T> Page<T> findAll(ShortcutQueryFunction<T> queryFunction, int pageNumber, int pageSize) {
     JPAQuery<T> query = new JPAQuery<>(em);
     queryFunction.apply(query);
