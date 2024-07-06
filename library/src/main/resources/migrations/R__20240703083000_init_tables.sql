@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
+  `names` JSON,
   `create_time` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY(`username`)

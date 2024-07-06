@@ -11,6 +11,7 @@ import com.origin.library.domain.error.UsernameOrPasswordError;
 import com.origin.library.domain.event.UserLoginEvent;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
+import com.origin.library.domain.vo.UserNames;
 import com.origin.library.infrastructure.repository.UserRepository;
 import com.origin.library.port.control.BaseController;
 
@@ -44,9 +45,6 @@ public class UserController extends BaseController {
 
     // Publish user login event
     asyncEventBus.post(new UserLoginEvent(user.getId()));
-    // userRepository.editUserCreateTime(user.getId());
-    // userRepository.removeUserBeforeTime(1);
-    // userRepository.searchBeforeEdit(true);
 
     UserResource response = UserResource.of(user);
     return Ok.of(response);

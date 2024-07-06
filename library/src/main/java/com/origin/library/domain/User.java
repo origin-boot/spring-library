@@ -3,7 +3,12 @@ package com.origin.library.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+
+import com.origin.library.domain.converter.UserNamesConverter;
+import com.origin.library.domain.vo.UserNames;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
@@ -28,6 +33,10 @@ public class User {
 
   @Column(name = "password")
   private String password;
+
+  @Column(name = "names")
+  @Convert(converter = UserNamesConverter.class)
+  private UserNames names;
 
   @Column(name = "create_time")
   private long createTime;
