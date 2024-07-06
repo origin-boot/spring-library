@@ -4,7 +4,7 @@ CS_VERSION="10.17.0"
 CS_JAR="checkstyle-${CS_VERSION}-all.jar"
 CS_CONFIG="google_checks.xml"
 
-LINT_VERSION="1.0.0"
+LINT_VERSION="1.0.1"
 LINT_JAR="spring-lint-${LINT_VERSION}.jar"
 
 if [ ! -f "$CS_CONFIG" ]; then
