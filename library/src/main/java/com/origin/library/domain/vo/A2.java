@@ -4,9 +4,9 @@ import com.origin.library.domain.converter.EnumConverter;
 
 public enum A2 implements EnumConverter.Valueable<Integer> {
   UNDEFINED(0),
-  ONE(1),
-  TWO(2),
-  THREE(3);
+  ONE(100),
+  TWO(200),
+  THREE(300);
 
   private final int value;
 

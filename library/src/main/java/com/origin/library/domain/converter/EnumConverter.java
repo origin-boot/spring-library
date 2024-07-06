@@ -25,7 +25,7 @@ public class EnumConverter<X extends EnumConverter.Valueable<Y>, Y>
       return null;
     }
     for (X v : clazz.getEnumConstants()) {
-      if (v.value() == dbData) {
+      if (v.value().equals(dbData)) {
         return v;
       }
     }

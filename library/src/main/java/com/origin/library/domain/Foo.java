@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 
 import com.origin.library.domain.converter.FooJsonConverter;
+import com.origin.library.domain.converter.A2Converter;
 import com.origin.library.domain.vo.A2;
 import com.origin.library.domain.vo.FooJson;
 
@@ -31,6 +32,7 @@ public class Foo {
   private int a1;
 
   @Column(name = "a2")
+  @Convert(converter = A2Converter.class)
   private A2 a2;
 
   @Column(name = "a3")
