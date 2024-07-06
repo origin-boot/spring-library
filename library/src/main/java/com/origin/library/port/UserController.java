@@ -11,7 +11,6 @@ import com.origin.library.domain.error.UsernameOrPasswordError;
 import com.origin.library.domain.event.UserLoginEvent;
 import com.origin.library.domain.success.Empty;
 import com.origin.library.domain.success.Ok;
-import com.origin.library.domain.vo.UserNames;
 import com.origin.library.infrastructure.repository.UserRepository;
 import com.origin.library.port.control.BaseController;
 
@@ -41,7 +40,7 @@ public class UserController extends BaseController {
       throw new UsernameOrPasswordError().setDetails("username: " + command.getUsername());
     }
 
-    identityHandlerInterceptor.save(httpServletResponse, String.valueOf(user.getId()));
+    saveIdentity(httpServletResponse, String.valueOf(user.getId()));
 
     // Publish user login event
     asyncEventBus.post(new UserLoginEvent(user.getId()));

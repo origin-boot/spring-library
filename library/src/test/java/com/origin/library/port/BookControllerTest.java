@@ -38,7 +38,7 @@ public class BookControllerTest extends ShortcutTester {
   }
 
   @BeforeEach
-  void contextLoads() throws Exception {
+  public void contextLoads() throws Exception {
     assertNotNull(bookController);
     assertNotNull(bookRepository);
   }

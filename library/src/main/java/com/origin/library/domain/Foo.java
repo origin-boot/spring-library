@@ -4,36 +4,43 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 
+import com.origin.library.domain.converter.FooJsonConverter;
+import com.origin.library.domain.vo.A2;
+import com.origin.library.domain.vo.FooJson;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// FIXME: Use the generic User<T> to be compatible with users whose id is String
-// And the basic User implementation should be an abstract class
 @Entity
-@Table(name = "users")
+@Table(name = "foos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Foo {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "username")
-  private String username;
+  @Column(name = "a1")
+  private int a1;
 
-  @Column(name = "password")
-  private String password;
+  @Column(name = "a2")
+  private A2 a2;
+
+  @Column(name = "a3")
+  private String a3;
+
+  @Column(name = "json")
+  @Convert(converter = FooJsonConverter.class)
+  private FooJson json;
 
   @Column(name = "create_time")
   private long createTime;
-
-  public boolean isMatchPassword(String inputPassword) {
-    return this.password != null && this.password.equals(inputPassword);
-  }
 }
+

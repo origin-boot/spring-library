@@ -21,7 +21,7 @@ public class UserControllerTest extends ShortcutTester {
   private UserController userController;
 
   @BeforeEach
-  void contextLoads() throws Exception {
+  public void contextLoads() throws Exception {
     assertNotNull(userController);
   }
 

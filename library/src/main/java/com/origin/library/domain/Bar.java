@@ -11,29 +11,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// FIXME: Use the generic User<T> to be compatible with users whose id is String
-// And the basic User implementation should be an abstract class
 @Entity
-@Table(name = "users")
+@Table(name = "bars")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Bar {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "username")
-  private String username;
+  @Column(name = "a1")
+  private int a1;
 
-  @Column(name = "password")
-  private String password;
+  @Column(name = "a2")
+  private int a2;
+
+  @Column(name = "a3")
+  private String a3;
 
   @Column(name = "create_time")
   private long createTime;
-
-  public boolean isMatchPassword(String inputPassword) {
-    return this.password != null && this.password.equals(inputPassword);
-  }
 }
+

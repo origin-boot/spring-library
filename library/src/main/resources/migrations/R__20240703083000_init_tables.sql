@@ -22,8 +22,26 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `names` JSON,
   `create_time` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY(`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `foos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `a1` int(11) NOT NULL DEFAULT 0,
+  `a2` tinyint(1) NOT NULL DEFAULT 0,
+  `a3` varchar(20) NOT NULL,
+  `json` JSON,
+  `create_time` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `bars` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `a1` int(11) NOT NULL DEFAULT 0,
+  `a2` tinyint(1) NOT NULL DEFAULT 0,
+  `a3` varchar(20) NOT NULL,
+  `create_time` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
