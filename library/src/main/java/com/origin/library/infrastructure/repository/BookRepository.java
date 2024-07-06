@@ -16,7 +16,7 @@ public interface BookRepository
     Predicate p = predicate()
         .and(isNotBlank(keyword), a.name.like(quoteLike(keyword)))
         .build();
-    Sort sort = asc("id");
+    Sort sort = orderBy(a.id.asc());
     return findAll(p, sort, pageNumber, pageSize);
   }
 }

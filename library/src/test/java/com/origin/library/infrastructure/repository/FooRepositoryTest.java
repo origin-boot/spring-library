@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.origin.library.domain.Foo;
+import com.origin.library.domain.Page;
 import com.origin.library.domain.vo.A2;
 import com.origin.library.domain.vo.FooJson;
 import com.origin.library.infrastructure.util.TimeUtil;
@@ -47,5 +48,20 @@ public class FooRepositoryTest {
     assertNotNull(a3.getJson());
     assertEquals(1, a3.getJson().getFieldA());
     assertEquals("B", a3.getJson().getFieldB());
+  }
+
+  @Test
+  public void testExamples() {
+    Page<Foo> e1 = fooRepository.searchExample1("", 0, 10);
+    assertNotNull(e1.getRecords());
+
+    Iterable<Foo> e2 = fooRepository.searchExample2("");
+    assertNotNull(e2);
+
+    boolean e3 = fooRepository.editExample3();
+    assertNotNull(e3);
+
+    long e4 = fooRepository.removeExample4();
+    assertNotNull(e4);
   }
 }

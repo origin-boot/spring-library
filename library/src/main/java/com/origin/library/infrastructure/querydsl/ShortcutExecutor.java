@@ -3,7 +3,10 @@ package com.origin.library.infrastructure.querydsl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.Nullable;
+
+import com.querydsl.core.types.OrderSpecifier;
 
 public interface ShortcutExecutor {
   default boolean isEmpty(String s) {
@@ -59,12 +62,8 @@ public interface ShortcutExecutor {
     return pageable(null, pageNumber, pageSize);
   }
 
-  default Sort asc(String... properties) {
-    return Sort.by(properties);
-  }
-
-  default Sort desc(String... properties) {
-    return Sort.by(Sort.Direction.DESC, properties);
+  default Sort orderBy(OrderSpecifier<?>... orderSpecifiers) {
+    return QSort.by(orderSpecifiers);
   }
 
   default ShortcutPredicateBuilder predicate() {
