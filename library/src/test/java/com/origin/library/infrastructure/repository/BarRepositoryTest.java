@@ -21,7 +21,7 @@ public class BarRepositoryTest {
   private BarRepository barRepository;
 
   @BeforeEach
-  void contextLoads() throws Exception {
+  public void contextLoads() throws Exception {
     assertNotNull(barRepository);
   }
 

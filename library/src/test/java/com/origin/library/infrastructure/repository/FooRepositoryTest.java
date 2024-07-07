@@ -25,7 +25,7 @@ public class FooRepositoryTest {
   private FooRepository fooRepository;
 
   @BeforeEach
-  void contextLoads() throws Exception {
+  public void contextLoads() throws Exception {
     assertNotNull(fooRepository);
   }
 

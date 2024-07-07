@@ -12,7 +12,6 @@ import com.origin.library.domain.dto.A2Count;
 import com.origin.library.infrastructure.querydsl.ShortcutExecute;
 import com.origin.library.infrastructure.querydsl.ShortcutPredicateExecutor;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
 
@@ -81,7 +80,7 @@ class AdvancedFooRepositoryImpl extends ShortcutExecute implements AdvancedFooRe
     QFoo a = QFoo.foo;
     List<Tuple> tuples = findAll(
         q -> q
-            .select(a.a2, Expressions.ONE.count().as("count"))
+            .select(a.a2, Expressions.ONE.count())
             .from(a)
             .groupBy(a.a2));
 
